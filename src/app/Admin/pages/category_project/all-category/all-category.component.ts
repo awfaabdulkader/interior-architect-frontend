@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class AllCategoryComponent implements OnInit {
   categories: category[] = [];
-  baseStorageUrl = 'https://interior-architect-backend-main-36p6qz.laravel.cloud/api/images/'; // Database image storage URL
+  baseStorageUrl = 'https://interior-architect-backend-main-36p6qz.laravel.cloud/storage/'; // Fixed storage URL
 
   constructor(private api: ApiService, private router: Router) { }
 
