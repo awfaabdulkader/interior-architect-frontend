@@ -1,7 +1,10 @@
 <header class="flex justify-between items-center p-6 md:p-5 sm:p-4 bg-white shadow-sm sticky top-0 z-40">
   <!-- Logo -->
   <div class="flex-shrink-0">
-    <img src="assets/Image/logo.jpg" alt="logo" class="h-16 md:h-14 sm:h-12 w-auto">
+    <a routerLink="/portfolio">
+      <img src="assets/Image/logo.jpg" alt="logo"
+        class="h-16 md:h-14 sm:h-12 w-auto cursor-pointer hover:opacity-80 transition-opacity">
+    </a>
   </div>
 
   <!-- Desktop Navigation Menu -->
@@ -35,7 +38,10 @@
 
     <!-- Header -->
     <div class="flex justify-between items-center p-6 border-b border-gray-200">
-      <img src="assets/Image/logo.jpg" alt="logo" class="h-12 w-auto">
+      <a routerLink="/portfolio" (click)="toggleMobileMenu()">
+        <img src="assets/Image/logo.jpg" alt="logo"
+          class="h-12 w-auto cursor-pointer hover:opacity-80 transition-opacity">
+      </a>
       <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors" (click)="toggleMobileMenu()">
         <i class="fas fa-times text-xl text-gray-700"></i>
       </button>

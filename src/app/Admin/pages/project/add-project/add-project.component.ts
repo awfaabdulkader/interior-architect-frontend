@@ -18,8 +18,9 @@ export class AddProjectComponent implements OnInit {
   imagesPreview: string[] = [];
   selectedImages: File[] = [];
   isFormValid: any;
+  isLoading = false;
 
-  constructor(private fb: FormBuilder, private apiservice: ApiService , private router:Router) { }
+  constructor(private fb: FormBuilder, private apiservice: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.ProjectForm = this.fb.group
@@ -38,8 +39,9 @@ export class AddProjectComponent implements OnInit {
     this.apiservice.getCategories().subscribe
       ({
         next: (Response) => {
-        this.categories = Response.categories || Response.data || Response;
-          console.log('Categories loaded:', this.categories);},
+          this.categories = Response.categories || Response.data || Response;
+          console.log('Categories loaded:', this.categories);
+        },
         error: (error) => console.error('Error loading categories:', error)
 
       });
@@ -118,16 +120,18 @@ export class AddProjectComponent implements OnInit {
     }
 
     // Check if images are selected
-    if (!this.selectedImages || this.selectedImages.length === 0) 
-      {
-          Swal.fire({
+    if (!this.selectedImages || this.selectedImages.length === 0) {
+      Swal.fire({
         title: "Please select at least one image!",
         icon: "error",
         draggable: true
-      });  
-     
+      });
+
       return;
     }
+
+    // Set loading state
+    this.isLoading = true;
 
     // Create FormData
     const formData = new FormData();
@@ -138,44 +142,47 @@ export class AddProjectComponent implements OnInit {
     formData.append('category_id', this.ProjectForm.get('category_id')?.value);
 
     // Append images to FormData
-   this.selectedImages.forEach((file, index) => {
-formData.append(`image_url[${index}]`, file);
-});
+    this.selectedImages.forEach((file, index) => {
+      formData.append(`image_url[${index}]`, file);
+    });
 
     // Send the form data to the API
     this.apiservice.addProjects(formData).subscribe({
       next: (res) => {
         console.log('Project added successfully:', res);
-        
+
         // Reset the form
         this.ProjectForm.reset();
         this.selectedImages = [];
         this.imagesPreview = [];
-        
-      Swal.fire({
-        title: "Project added successfully!",
-        icon: "success",
-        draggable: true
-      });     
-      this.router.navigate(['admin/list/project'])
-     },
+
+        Swal.fire({
+          title: "Project added successfully!",
+          icon: "success",
+          draggable: true
+        });
+        this.router.navigate(['admin/list/project'])
+      },
       error: (error) => {
         console.error('Error adding project:', error);
         if (error.status === 401) {
           Swal.fire({
-        title: "Authentication failed. Please login again.",
-        icon: "error",
-        draggable: true
-      });  
-          
+            title: "Authentication failed. Please login again.",
+            icon: "error",
+            draggable: true
+          });
+
         } else {
           Swal.fire({
-        title: "Error adding project. Please try again.",
-        icon: "error",
-        draggable: true
-      });  
-         
+            title: "Error adding project. Please try again.",
+            icon: "error",
+            draggable: true
+          });
+
         }
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

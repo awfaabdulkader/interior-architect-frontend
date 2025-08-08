@@ -37,6 +37,7 @@
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         @for (category of categories; track category.id) {
+
         <tr class="hover:bg-gray-50 transition-colors">
           <td class="py-4 px-6 text-sm text-gray-900">
             {{ category.id }}
@@ -79,8 +80,10 @@
 
   <!-- Add Category Button -->
   <div class="mt-6 text-center">
-    <button class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full transition-colors font-medium">
-      Ajouter une Nouvelle Catégorie
+    <button (click)="createCategory()"
+      class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full transition-colors font-medium flex items-center gap-2 mx-auto">
+      <i class="fas fa-plus"></i>
+      <span>Ajouter une Nouvelle Catégorie</span>
     </button>
   </div>
 </div>

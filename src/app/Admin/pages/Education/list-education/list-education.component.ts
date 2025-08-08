@@ -10,43 +10,41 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-list-education',
   standalone: true,
-  imports: [CommonModule, FormsModule ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './list-education.component.html',
   styleUrl: './list-education.component.css'
 })
-export class ListEducationComponent implements OnInit
-{
-[x: string]: any;
-  educations: Education[]=[];
+export class ListEducationComponent implements OnInit {
+  [x: string]: any;
+  educations: Education[] = [];
 
   constructor
-  (
-    private api:ApiService,
-    private router: Router
-  ) { }
+    (
+      private api: ApiService,
+      private router: Router
+    ) { }
 
- ngOnInit(): void {
-  this.api.getEducations().subscribe({
-    next: (res: any) => {
-    this.educations = res.education; // ✅ matches the Laravel key
-    },
-    error: (err) => {
-      console.error('Error fetching education data:', err);
-    }
-  });
-      this.loadEducations(); // Load educations when the component initializes
+  ngOnInit(): void {
+    this.api.getEducations().subscribe({
+      next: (res: any) => {
+        this.educations = res.education; // ✅ matches the Laravel key
+      },
+      error: (err) => {
+        console.error('Error fetching education data:', err);
+      }
+    });
+    this.loadEducations(); // Load educations when the component initializes
 
-}
+  }
 
-// send to update page
-editEducation(id: number) {
-  this.router.navigate(['admin', 'edit', 'education', id]);
-}
+  // send to update page
+  editEducation(id: number) {
+    this.router.navigate(['admin', 'edit', 'education', id]);
+  }
 
-// delete education
-deleteEducation(id:number)
-{
-  Swal.fire({
+  // delete education
+  deleteEducation(id: number) {
+    Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
@@ -59,7 +57,7 @@ deleteEducation(id:number)
       if (result.isConfirmed) {
         // Call your API to delete
         this.api.deleteEducation(id).subscribe({
-          next: (res:any) => {
+          next: (res: any) => {
             Swal.fire(
               'Deleted!',
               'Education has been deleted.',
@@ -76,8 +74,7 @@ deleteEducation(id:number)
       }
     });
   }
-  loadEducations() 
-  {
+  loadEducations() {
     this.api.getEducations().subscribe({
       next: (res: any) => {
         this.educations = res.education; // ✅ matches the Laravel key
@@ -88,5 +85,9 @@ deleteEducation(id:number)
     });
   }
 
- 
+  createEducation(): void {
+    this.router.navigate(['/admin/add/education']);
+  }
+
+
 }

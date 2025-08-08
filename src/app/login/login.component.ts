@@ -31,55 +31,53 @@ export class LoginComponent {
 
     // Auto-redirect if already logged in
     if (this.authService.isLoggedIn()) {
-      this.showAlert('You are already logged in!', 'success');
+      this.showAlert('Vous êtes déjà connecté !', 'success');
       setTimeout(() => {
         this.router.navigate(['/admin/add/education']);
       }, 1000);
     }
   }
 
-async onSubmit() {
-  if (this.loginForm.valid) {
-    this.isLoading.set(true);
-    this.alertMessage.set('');
+  async onSubmit() {
+    if (this.loginForm.valid) {
+      this.isLoading.set(true);
+      this.alertMessage.set('');
 
-    try {
-      const loginData = this.loginForm.value;
-      console.log('Attempting login...');
-      
-      await this.authService.login(loginData);
-      console.log('Login successful, user logged in:', this.authService.isLoggedIn());
-      
-      this.showAlert('Login successful! Redirecting...', 'success');
-      
-      console.log('About to redirect to /admin/dashboard');
-      setTimeout(() => {
-        this.router.navigate(['/admin/dashboard']).then(
-          (success) => console.log('Navigation success:', success),
-          (error) => console.error('Navigation error:', error)
-        );
-      }, 1000);
-      
-    } catch (error: any) {
-      console.error('Login error:', error);
-      this.showAlert(error.message || 'Login failed. Please try again.', 'error');
-    } finally {
-      this.isLoading.set(false);
+      try {
+        const loginData = this.loginForm.value;
+        console.log('Attempting login...');
+
+        await this.authService.login(loginData);
+        console.log('Login successful, user logged in:', this.authService.isLoggedIn());
+
+        this.showAlert('Connexion réussie ! Redirection...', 'success');
+
+        console.log('About to redirect to /admin/dashboard');
+        setTimeout(() => {
+          this.router.navigate(['/admin/dashboard']).then(
+            (success) => console.log('Navigation success:', success),
+            (error) => console.error('Navigation error:', error)
+          );
+        }, 1000);
+
+      } catch (error: any) {
+        console.error('Login error:', error);
+        this.showAlert(error.message || 'Échec de la connexion. Veuillez réessayer.', 'error');
+      } finally {
+        this.isLoading.set(false);
+      }
     }
   }
-}
 
   togglePasswordVisibility() {
     this.showPassword.set(!this.showPassword());
   }
 
   resetPassword() {
-    this.showAlert('Reset password functionality coming soon!', 'success');
+    this.showAlert('La fonctionnalité de réinitialisation du mot de passe arrive bientôt !', 'success');
   }
 
-  createAccount() {
-    this.router.navigate(['/register']);
-  }
+
 
   private showAlert(message: string, type: 'success' | 'error') {
     this.alertMessage.set(message);

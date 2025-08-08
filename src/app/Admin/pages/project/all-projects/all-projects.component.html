@@ -1,6 +1,13 @@
 <div class="flex justify-center items-center h-full p-6">
   <div class="bg-white p-6 rounded-xl shadow w-full max-w-5xl">
-    <h2 class="text-center text-xl font-semibold mb-6">Liste des Projets</h2>
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold">Liste des Projets</h2>
+      <button (click)="createProject()"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+        <i class="fas fa-plus"></i>
+        <span>Ajouter un Projet</span>
+      </button>
+    </div>
 
     <table class="w-full text-sm text-left border">
       <thead class="bg-gray-100 text-gray-700">

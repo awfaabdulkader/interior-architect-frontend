@@ -144,6 +144,6 @@ export const routes: Routes = [
     ],
   },
 
-  // Fallback route
+  // Fallback route - only redirect to home for public routes
   { path: '**', redirectTo: '' }
 ];

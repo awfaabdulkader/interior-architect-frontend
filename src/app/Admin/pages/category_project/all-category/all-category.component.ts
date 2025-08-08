@@ -56,6 +56,10 @@ export class AllCategoryComponent implements OnInit {
     });
   }
 
+  createCategory(): void {
+    this.router.navigate(['/admin/add/categories']);
+  }
+
   // Get full image URL
   getImageUrl(coverPath: string): string {
     if (!coverPath) return '';

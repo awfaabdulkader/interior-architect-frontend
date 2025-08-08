@@ -33,6 +33,10 @@ export class AllProjectsComponent implements OnInit {
     this.router.navigate(['/admin/edit/project', projectId]);
   }
 
+  createProject() {
+    this.router.navigate(['/admin/add/project']);
+  }
+
   ngOnInit(): void {
     this.apiservice.getCategories().subscribe
       ({
