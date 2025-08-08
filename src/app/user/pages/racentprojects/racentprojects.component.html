@@ -1,0 +1,40 @@
+<div class="bg-white p-6 text-center">
+  <h2 class="text-2xl font-semibold text-[#5a567e] mb-6">
+    Mes <span class="font-medium">projets récents</span>
+  </h2>
+
+  @if (loading) {
+  <div class="grid grid-cols-2 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-6">
+    @for (_ of [1,2,3,4]; track _) {
+    <div class="bg-gray-200 h-48 rounded-lg animate-pulse"></div>
+    }
+  </div>
+  } @else {
+  <div class="grid grid-cols-2 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-6">
+    @for (project of recentProjects; track project.id) {
+    <div class="relative bg-gray-100 h-48 rounded-lg overflow-hidden shadow-md group">
+      @if (getFirstImage(project)) {
+      <img [src]="getFirstImage(project)" [alt]="project.name"
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+      } @else {
+      <div class="w-full h-full flex items-center justify-center text-gray-500">
+        Aucune Image
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Fill empty spots with placeholders -->
+    @for (i of [1, 2, 3, 4].slice(recentProjects.length); track i) {
+    <div class="bg-gray-100 h-48 rounded-lg flex items-center justify-center text-gray-400">
+      Espace {{ i + recentProjects.length }}
+    </div>
+    }
+  </div>
+  }
+
+  <a routerLink="/portfolio" routerLinkActive="active"
+    class="bg-[#2e3b55] text-white px-6 py-2 rounded-full hover:bg-[#1e2a40] transition inline-block text-center">
+    Voir plus
+  </a>
+</div>

@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-6xl mx-auto px-4">
+        @if (loading) {
+        <div class="flex justify-center items-center h-64">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+        } @else if (project) {
+        <!-- Project Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ project.name }}</h1>
+            <p class="text-lg text-gray-600 mb-4">{{ project.description }}</p>
+            @if (project.category) {
+            <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                {{ project.category.name }}
+            </span>
+            }
+        </div>
+
+        <!-- Image Gallery -->
+        @if (project.images && project.images.length > 0) {
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Main Image Display -->
+            <div class="relative">
+                <img [src]="getImageUrl(project.images[currentImageIndex].image_url)" [alt]="project.name"
+                    class="w-full h-auto object-contain" />
+
+                <!-- Navigation Arrows -->
+                @if (project.images.length > 1) {
+                <button (click)="previousImage()"
+                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm text-gray-800 p-3 rounded-full hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                </button>
+
+                <button (click)="nextImage()"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm text-gray-800 p-3 rounded-full hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                }
+            </div>
+
+            <!-- Thumbnail Navigation -->
+            @if (project.images.length > 1) {
+            <div class="p-4 bg-gray-50">
+                <div class="flex space-x-2 overflow-x-auto">
+                    @for (image of project.images; track image.id; let i = $index) {
+                    <button (click)="goToImage(i)" [class]="i === currentImageIndex ? 'ring-2 ring-blue-500' : ''"
+                        class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-300 transition-colors">
+                        <img [src]="getImageUrl(image.image_url)" [alt]="project.name"
+                            class="w-full h-full object-cover" />
+                    </button>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- Image Counter -->
+        <div class="mt-4 text-center text-gray-600">
+            {{ currentImageIndex + 1 }} of {{ project.images.length }} images
+        </div>
+        } @else {
+        <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
+            </div>
+            <p class="text-gray-500">No images available for this project</p>
+        </div>
+        }
+        } @else {
+        <div class="text-center py-12">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Project Not Found</h2>
+            <p class="text-gray-600">The project you're looking for doesn't exist or has been removed.</p>
+        </div>
+        }
+    </div>
+</div>
