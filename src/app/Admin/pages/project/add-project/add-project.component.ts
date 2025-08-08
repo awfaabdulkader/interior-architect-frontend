@@ -143,7 +143,7 @@ export class AddProjectComponent implements OnInit {
 
     // Append images to FormData
     this.selectedImages.forEach((file, index) => {
-      formData.append(`image_url[${index}]`, file);
+      formData.append(`images[]`, file);
     });
 
     // Send the form data to the API

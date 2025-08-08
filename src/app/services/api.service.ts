@@ -102,7 +102,7 @@ export class ApiService {
     return this.http.delete(`${this.apiUrl}/category/${id}`);
   }
 
-  addskills(data: any) {
+  addskills(data: FormData) {
     return this.http.post(`${this.apiUrl}/skills`, data);
   }
   getSkills(): Observable<any> {
